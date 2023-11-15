@@ -20,8 +20,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Darling\\roadyRoutes\\": "src/",
-            "Darling\\roadyRoutes\\tests\\": "tests/"
+            "Darling\\RoadyRoutes\\": "src/",
+            "Darling\\RoadyRoutes\\tests\\": "tests/"
         }
     },
     "require-dev": {
