@@ -11,27 +11,21 @@ class PositionName implements PositionNameInterface
 {
 
     public function __construct(private Name $name) {
-        $filteredNameString = substr(str_replace(['_', '.'], '-', $name->__toString()), 0, 30);
-        $prefix = (
-            $name->contains('-')
-            &&
-            ctype_alnum($filteredNameString[0])
-            ? ''
-            : 'roady-'
+        $filteredNameString = str_replace(
+            ['_', '.'],
+            '-',
+            $name->__toString()
         );
-        $suffix = (
+        $offset = ($name->length() - mb_strlen('-position-name'));
+        $filteredNameString = (
              ctype_alnum(substr($filteredNameString, -1))
-             ? ''
-             : '-position-name'
+             &&
+             str_contains($filteredNameString, '-')
+             ? $filteredNameString
+             : substr($filteredNameString, 0, $offset) . '-position-name'
          );
         $filteredName = new NameInstance(
-            new TextInstance(
-                strtolower(
-                    $prefix .
-                    $filteredNameString .
-                    $suffix
-                )
-            )
+            new TextInstance(strtolower($filteredNameString))
         );
         $this->name = $filteredName;
     }
