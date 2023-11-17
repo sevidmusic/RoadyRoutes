@@ -16,14 +16,18 @@ class PositionName implements PositionNameInterface
             '-',
             $name->__toString()
         );
-        $offset = ($name->length() - mb_strlen('-position-name'));
+        $offset = ($name->length() - mb_strlen('-rpn'));
         $filteredNameString = (
-             ctype_alnum(substr($filteredNameString, -1))
-             &&
-             str_contains($filteredNameString, '-')
-             ? $filteredNameString
-             : substr($filteredNameString, 0, $offset) . '-position-name'
-         );
+            ctype_alnum(substr($filteredNameString, -1))
+            &&
+            str_contains($filteredNameString, '-')
+            ? $filteredNameString
+            : (
+                $name->length() + $offset < 70
+                ? $filteredNameString . '-rpn'
+                : substr($filteredNameString, 0, $offset) . '-rpn'
+            )
+        );
         $filteredName = new NameInstance(
             new TextInstance(strtolower($filteredNameString))
         );

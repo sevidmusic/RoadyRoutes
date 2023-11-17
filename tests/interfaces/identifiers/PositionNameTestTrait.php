@@ -128,7 +128,7 @@ trait PositionNameTestTrait
      *
      *                   If the specified Name does not end with an
      *                   alphanumeric character, the suffix
-     *                   `-position-name` will be prepended to the
+     *                   `-0` will be prepended to the
      *                   specified Name.
      *
      *                   Finally, if the specified Name contains any
@@ -146,14 +146,18 @@ trait PositionNameTestTrait
             '-',
             $name->__toString()
         );
-        $offset = ($name->length() - mb_strlen('-position-name'));
+        $offset = ($name->length() - mb_strlen('-rpn'));
         $filteredNameString = (
-             ctype_alnum(substr($filteredNameString, -1))
-             &&
-             str_contains($filteredNameString, '-')
-             ? $filteredNameString
-             : substr($filteredNameString, 0, $offset) . '-position-name'
-         );
+            ctype_alnum(substr($filteredNameString, -1))
+            &&
+            str_contains($filteredNameString, '-')
+            ? $filteredNameString
+            : (
+                $name->length() + $offset < 70
+                ? $filteredNameString . '-rpn'
+                : substr($filteredNameString, 0, $offset) . '-rpn'
+            )
+        );
         $filteredName = new NameInstance(
             new TextInstance(strtolower($filteredNameString))
         );
@@ -275,29 +279,32 @@ trait PositionNameTestTrait
     }
 
     /**
-     * Test Name is less than 51 characters.
+     * Test Name is less than 71 characters.
      *
      * @return void
      *
      * @covers PositionName->name()
      *
      *
-    public function test_Name_is_less_than_51_characters(): void
+     */
+    public function test_Name_is_less_than_71_characters(): void
     {
         $this->assertLessThan(
-            51,
+            71,
             $this->positionNameTestInstance()->name()->length(),
             $this->testFailedMessage(
                $this->positionNameTestInstance(),
                'name',
-               'Name\'s length must be less than 51 characters'
+               'Name\'s length must be less than 71 characters'
             ),
         );
     }
-    */
+
     /**
      * TODO
      * test___toString_returns_the_same_string_that_returned_by_the___toString_method_of_the_Name_returned_by_the_name_method()
+     * test_Name_does_not_contain_any_periods()
+     * test_Name_does_not_contain_any_underscores()
      */
 
     abstract public static function assertLessThan(mixed $expected, mixed $actual, string $message = ''): void;
