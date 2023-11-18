@@ -208,6 +208,58 @@ trait PositionTestTrait
             ),
         );
     }
+
+
+    /**
+     * Test increase position increases position by point `0.001`.
+     *
+     * @return void
+     *
+     * @covers Position->__toString()
+     *
+     */
+    public function test_increase_position_increases_position_by_point_001(): void
+    {
+        $this->setExpectedInitialFloatValue(
+            $this->expectedInitialFloatValue() + 0.001
+        );
+        $this->positionTestInstance()->increasePosition();
+        $this->assertEquals(
+            $this->expectedInitialFloatValue(),
+            $this->positionTestInstance()->floatValue(),
+            $this->testFailedMessage(
+               $this->positionTestInstance(),
+               'increasePosition',
+               'Test increase position increases position by point `0.001`.'
+            ),
+        );
+    }
+
+    /**
+     * Test decrease position decreases position by point `0.001`.
+     *
+     * @return void
+     *
+     * @covers Position->__toString()
+     *
+     */
+    public function test_decrease_position_decreases_position_by_point_001(): void
+    {
+        $this->setExpectedInitialFloatValue(
+            $this->expectedInitialFloatValue() - 0.001
+        );
+        $this->positionTestInstance()->decreasePosition();
+        $this->assertEquals(
+            $this->expectedInitialFloatValue(),
+            $this->positionTestInstance()->floatValue(),
+            $this->testFailedMessage(
+               $this->positionTestInstance(),
+               'decreasePosition',
+               'Test decrease position decreases position by point `0.001`.'
+            ),
+        );
+    }
+
     abstract protected function testFailedMessage(object $testedInstance, string $testedMethod, string $expectation): string;
     abstract public static function assertEquals(mixed $expected, mixed $actual, string $message = ''): void;
     abstract public static function assertGreaterThan(mixed $expected, mixed $actual, string $message = ''): void;

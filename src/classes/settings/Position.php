@@ -35,12 +35,12 @@ class Position implements PositionInterface
 
     public function increasePosition(): void
     {
-
+        $this->float = $this->float + 0.001;
     }
 
     public function decreasePosition(): void
     {
-
+        $this->float = $this->float - 0.001;
     }
 
 }
