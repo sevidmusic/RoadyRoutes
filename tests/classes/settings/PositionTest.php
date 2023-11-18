@@ -10,9 +10,8 @@ class PositionTest extends RoadyRoutesTest
 {
 
     /**
-     * The PositionTestTrait defines
-     * common tests for implementations of the
-     * Darling\RoadyRoutes\interfaces\settings\Position
+     * The PositionTestTrait defines common tests for implementations
+     * of the Darling\RoadyRoutes\interfaces\settings\Position
      * interface.
      *
      * @see PositionTestTrait

@@ -33,8 +33,12 @@ trait PositionTestTrait
     /**
      * Set up an instance of a Position implementation to test.
      *
-     * This method must also set the Position implementation instance
+     * This method must set the Position implementation instance
      * to be tested via the setPositionTestInstance() method.
+     *
+     * This method must also set the flaot value that is expected
+     * to be initially assigned to the Position instance being
+     * tested via the setExpectedInitialFloatValue() method.
      *
      * This method may also be used to perform any additional setup
      * required by the implementation being tested.
@@ -44,11 +48,12 @@ trait PositionTestTrait
      * @example
      *
      * ```
-     * protected function setUp(): void
+     *
+     * public function setUp(): void
      * {
-     *     $this->setPositionTestInstance(
-     *         new \Darling\RoadyRoutes\classes\settings\Position()
-     *     );
+     *     $initalFloatValue = $this->randomFloat();
+     *     $this->setExpectedInitialFloatValue($initalFloatValue);
+     *     $this->setPositionTestInstance(new Position($initalFloatValue));
      * }
      *
      * ```
@@ -230,7 +235,8 @@ trait PositionTestTrait
             $this->testFailedMessage(
                $this->positionTestInstance(),
                'increasePosition',
-               'Test increase position increases position by point `0.001`.'
+               'Test increase position increases position by ' .
+               'point `0.001`.'
             ),
         );
     }
@@ -255,17 +261,15 @@ trait PositionTestTrait
             $this->testFailedMessage(
                $this->positionTestInstance(),
                'decreasePosition',
-               'Test decrease position decreases position by point `0.001`.'
+               'Test decrease position decreases position by ' .
+               'point `0.001`.'
             ),
         );
     }
 
     abstract protected function testFailedMessage(object $testedInstance, string $testedMethod, string $expectation): string;
-    abstract public static function assertEquals(mixed $expected, mixed $actual, string $message = ''): void;
-    abstract public static function assertGreaterThan(mixed $expected, mixed $actual, string $message = ''): void;
-    abstract public static function assertLessThan(mixed $expected, mixed $actual, string $message = ''): void;
-    abstract public static function assertTrue(bool $condition, string $message = ''): void;
     abstract public function randomFloat(): float;
+    abstract public static function assertEquals(mixed $expected, mixed $actual, string $message = ''): void;
 
 }
 

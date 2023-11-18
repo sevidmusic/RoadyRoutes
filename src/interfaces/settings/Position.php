@@ -67,7 +67,7 @@ interface Position extends Stringable
     public function set(float|Position $newPosition): void;
 
     /**
-     * Increase the Position by a facotr of: 0.001
+     * Increase the Position by a factor of: 0.001
      *
      * @return void
      *
@@ -75,7 +75,7 @@ interface Position extends Stringable
     public function increasePosition(): void;
 
     /**
-     * Decrease the Position by a facotr of: 0.001
+     * Decrease the Position by a factor of: 0.001
      *
      * @return void
      *
