@@ -2,10 +2,10 @@
 
 namespace Darling\RoadyRoutes\classes\identifiers;
 
-use \Darling\RoadyRoutes\interfaces\identifiers\PositionName as PositionNameInterface;
-use \Darling\PHPTextTypes\interfaces\strings\Name;
-use \Darling\PHPTextTypes\classes\strings\Text as TextInstance;
 use \Darling\PHPTextTypes\classes\strings\Name as NameInstance;
+use \Darling\PHPTextTypes\classes\strings\Text as TextInstance;
+use \Darling\PHPTextTypes\interfaces\strings\Name;
+use \Darling\RoadyRoutes\interfaces\identifiers\PositionName as PositionNameInterface;
 
 class PositionName implements PositionNameInterface
 {

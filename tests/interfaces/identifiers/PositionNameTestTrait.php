@@ -8,8 +8,8 @@ use \Darling\PHPTextTypes\interfaces\strings\Name;
 use \Darling\RoadyRoutes\interfaces\identifiers\PositionName;
 
 /**
- * The PositionNameTestTrait defines common tests for
- * implementations of the PositionName interface.
+ * The PositionNameTestTrait defines common tests for implementations
+ * of the PositionName interface.
  *
  * @see PositionName
  *
@@ -18,15 +18,15 @@ trait PositionNameTestTrait
 {
 
     /**
-     * @var PositionName $positionName
-     *                              An instance of a
-     *                              PositionName
-     *                              implementation to test.
+     * @var PositionName $positionName An instance of a PositionName
+     *                                 implementation to test.
      */
     protected PositionName $positionName;
 
     /**
-     * @var Name $expectedName;
+     * @var Name $expectedName The Name that is expected to be
+     *                         returned by the PositionName instance
+     *                         being tested's name() method.
      */
     protected Name $expectedName;
 
@@ -37,9 +37,9 @@ trait PositionNameTestTrait
      * instance to be tested via the setPositionNameTestInstance()
      * method.
      *
-     * This method must set the Name instance that is expected
-     * to be returned by the PositionName instance being
-     * tested's name() method via the setExpectedName() method.
+     * This method must also set the Name instance that is expected
+     * to be returned by the PositionName instance being tested's
+     * name() method via the setExpectedName() method.
      *
      * This method may also be used to perform any additional setup
      * required by the implementation being tested.
@@ -51,17 +51,11 @@ trait PositionNameTestTrait
      * ```
      * public function setUp(): void
      * {
-     *     $invalidChars = str_shuffle(
-     *         '!@#$%^&*()_+=|\\}]{["\':;?/>.<,~`'
-     *     );
      *     $testText = [
-     *         new Text(''),
-     *         new Text(
-     *             $invalidChars .
-     *             $this->randomChars() .
-     *             $invalidChars .
-     *             '-'
-     *         ),
+     *         new Text(str_repeat('0', rand(0, 100))),
+     *         new Text('0-0-'),
+     *         new Text('0-' . '._' . '-0'),
+     *         new Text($this->randomChars()),
      *     ];
      *     $name = new Name($testText[array_rand($testText)]);
      *     $this->setExpectedName($name);
@@ -69,7 +63,6 @@ trait PositionNameTestTrait
      *         new PositionName($name)
      *     );
      * }
-     *
      * ```
      *
      */
@@ -90,10 +83,10 @@ trait PositionNameTestTrait
      * Set the PositionName implementation instance to test.
      *
      * @param PositionName $positionNameTestInstance
-     *                              An instance of an
-     *                              implementation of
-     *                              the PositionName
-     *                              interface to test.
+     *                                             An instance of an
+     *                                             implementation of
+     *                                             the PositionName
+     *                                             interface to test.
      *
      * @return void
      *
@@ -114,26 +107,25 @@ trait PositionNameTestTrait
      *                   the PositionName instance being tested's
      *                   name() method.
      *
-     *                   Note: The specified Name will be used to
+     *                   Note:
+     *
+     *                   The specified Name will be used to
      *                   instantiate a new Name instance that is
-     *                   filtered to comply with the additional
-     *                   requirements of a PostionName.
+     *                   filtered to comply with the requirements
+     *                   of a PostionName.
      *
-     *                   This new Name instance will be assigned as
-     *                   the expected Name instance.
+     *                   This new Name instance will be the Name that
+     *                   is actually assigned as the expected Name
+     *                   instance.
      *
-     *                   If the specified Name does not begin with an
-     *                   alphanumeric character, the prefix `roady-`
-     *                   will be prepended to the specified Name.
+     *                   If the specified Name contains any
+     *                   underscores (_) or periods (.) they
+     *                   will be replaced with hypens (-).
      *
      *                   If the specified Name does not end with an
-     *                   alphanumeric character, the suffix
-     *                   `-0` will be prepended to the
-     *                   specified Name.
+     *                   alphanumeric character, the suffix `-rpn`
+     *                   will be appended to the specified Name.
      *
-     *                   Finally, if the specified Name contains any
-     *                   underscores (_) or periods (.) they will be
-     *                   replaced with hypens (-).
      *
      * @return void
      *
@@ -146,7 +138,7 @@ trait PositionNameTestTrait
             '-',
             $name->__toString()
         );
-        $offset = ($name->length() - mb_strlen('-rpn'));
+        $offset = ($name->length() - mb_strlen($this->expectedAlphanumericSuffix()));
         $filteredNameString = (
             ctype_alnum(substr($filteredNameString, -1))
             &&
@@ -154,8 +146,8 @@ trait PositionNameTestTrait
             ? $filteredNameString
             : (
                 $name->length() + $offset < 70
-                ? $filteredNameString . '-rpn'
-                : substr($filteredNameString, 0, $offset) . '-rpn'
+                ? $filteredNameString . $this->expectedAlphanumericSuffix()
+                : substr($filteredNameString, 0, $offset) . $this->expectedAlphanumericSuffix()
             )
         );
         $filteredName = new NameInstance(
@@ -177,6 +169,22 @@ trait PositionNameTestTrait
     }
 
     /**
+     * Return the alphanumeric suffix that is expected to be appended
+     * to the Name returned by the expectedName() method method if
+     * the specified Name did not end in an alphanumeric character.
+     *
+     * @return string
+     *
+     * @see PositionTestTrait->setExpectedName()
+     * @see PositionTestTrait->expectedName()
+     *
+     */
+    private function expectedAlphanumericSuffix(): string
+    {
+        return '-rpn';
+    }
+
+    /**
      * Test Name returns expected Name.
      *
      * @return void
@@ -192,7 +200,8 @@ trait PositionNameTestTrait
             $this->testFailedMessage(
                $this->positionNameTestInstance(),
                'name',
-                'return the expected Name, Name is: ' . $this->positionNameTestInstance()->name()->__toString()
+               'return the expected Name, Name is: ' .
+               $this->positionNameTestInstance()->name()->__toString()
             ),
         );
     }
@@ -212,7 +221,9 @@ trait PositionNameTestTrait
             $this->testFailedMessage(
                $this->positionNameTestInstance(),
                'name',
-                'Name must contain at least one hyphen (-), Name is: `' . $this->positionNameTestInstance()->name()->__toString() . '`'
+               'Name must contain at least one hyphen (-), Name is: `' .
+               $this->positionNameTestInstance()->name()->__toString() .
+               '`'
             ),
         );
     }
@@ -228,11 +239,18 @@ trait PositionNameTestTrait
     public function test_Name_begins_with_an_alphanumeric_character(): void
     {
         $this->assertTrue(
-            ctype_alnum($this->positionNameTestInstance()->name()->__toString()[0]),
+            ctype_alnum(
+                $this->positionNameTestInstance()
+                     ->name()
+                     ->__toString()[0]
+            ),
             $this->testFailedMessage(
                $this->positionNameTestInstance(),
                'name',
-                'Name must begin with an alphanumeric character, Name is: `' . $this->positionNameTestInstance()->name()->__toString() . '`'
+               'Name must begin with an alphanumeric character, ' .
+               'Name is: `' .
+               $this->positionNameTestInstance()->name()->__toString() .
+               '`'
             ),
         );
     }
@@ -248,11 +266,21 @@ trait PositionNameTestTrait
     public function test_Name_ends_with_an_alphanumeric_character(): void
     {
         $this->assertTrue(
-            ctype_alnum(mb_substr($this->positionNameTestInstance()->name()->__toString(), -1)),
+            ctype_alnum(
+                mb_substr(
+                    $this->positionNameTestInstance()
+                         ->name()
+                         ->__toString(),
+                    -1
+                )
+            ),
             $this->testFailedMessage(
                $this->positionNameTestInstance(),
                'name',
-                'Name must end with an alphanumeric character, Name is: `' . $this->positionNameTestInstance()->name()->__toString() . '`'
+               'Name must end with an alphanumeric character, ' .
+               'Name is: `' .
+               $this->positionNameTestInstance()->name()->__toString() .
+               '`'
             ),
         );
     }
@@ -268,12 +296,16 @@ trait PositionNameTestTrait
     public function test_Name_is_lower_case(): void
     {
         $this->assertEquals(
-            strtolower($this->positionNameTestInstance()->name()->__toString()),
+            strtolower(
+                $this->positionNameTestInstance()->name()->__toString()
+            ),
             $this->positionNameTestInstance()->name()->__toString(),
             $this->testFailedMessage(
                $this->positionNameTestInstance(),
                'name',
-                'Name must be lowercase, Name is: `' . $this->positionNameTestInstance()->name()->__toString() . '`'
+               'Name must be lowercase, Name is: `' .
+               $this->positionNameTestInstance()->name()->__toString() .
+               '`'
             ),
         );
     }
@@ -301,6 +333,28 @@ trait PositionNameTestTrait
     }
 
     /**
+     * Test Name is greater than 2 characters.
+     *
+     * @return void
+     *
+     * @covers PositionName->name()
+     *
+     *
+     */
+    public function test_Name_is_greater_than_2_characters(): void
+    {
+        $this->assertGreaterThan(
+            2,
+            $this->positionNameTestInstance()->name()->length(),
+            $this->testFailedMessage(
+               $this->positionNameTestInstance(),
+               'name',
+               'Name\'s length must be greater than 2 characters'
+            ),
+        );
+    }
+
+    /**
      * Test Name does not contain any periods.
      *
      * @return void
@@ -311,11 +365,16 @@ trait PositionNameTestTrait
     public function test_Name_does_not_contain_any_periods(): void
     {
         $this->assertTrue(
-            !str_contains($this->positionNameTestInstance()->name()->__toString(), '.'),
+            !str_contains(
+                $this->positionNameTestInstance()->name()->__toString(),
+                '.'
+            ),
             $this->testFailedMessage(
                $this->positionNameTestInstance(),
                'name',
-                'Name must not contain any periods. Name is: ' . $this->positionNameTestInstance()->name()->__toString() . '`'
+               'Name must not contain any periods. Name is: ' .
+               $this->positionNameTestInstance()->name()->__toString() .
+               '`'
             ),
         );
     }
@@ -331,11 +390,16 @@ trait PositionNameTestTrait
     public function test_Name_does_not_contain_any_underscores(): void
     {
         $this->assertTrue(
-            !str_contains($this->positionNameTestInstance()->name()->__toString(), '_'),
+            !str_contains(
+                $this->positionNameTestInstance()->name()->__toString(),
+                '_'
+            ),
             $this->testFailedMessage(
                $this->positionNameTestInstance(),
                'name',
-                'Name must not contain any underscores. Name is: ' . $this->positionNameTestInstance()->name()->__toString() . '`'
+               'Name must not contain any underscores. Name is: ' .
+               $this->positionNameTestInstance()->name()->__toString() .
+               '`'
             ),
         );
     }
@@ -357,16 +421,21 @@ trait PositionNameTestTrait
             $this->positionNameTestInstance()->__toString(),
             $this->testFailedMessage(
                $this->positionNameTestInstance(),
-               'name',
-                'Name must be lowercase, Name is: `' . $this->positionNameTestInstance()->name()->__toString() . '`'
+               '__toString',
+               'returns the same string that is returned by ' .
+               'the __toString() method of the Name ' .
+               'instance returned by the name() method.' .
+               $this->positionNameTestInstance()->name()->__toString() .
+               '`'
             ),
         );
     }
 
+    abstract protected function testFailedMessage(object $testedInstance, string $testedMethod, string $expectation): string;
+    abstract public static function assertEquals(mixed $expected, mixed $actual, string $message = ''): void;
+    abstract public static function assertGreaterThan(mixed $expected, mixed $actual, string $message = ''): void;
     abstract public static function assertLessThan(mixed $expected, mixed $actual, string $message = ''): void;
     abstract public static function assertTrue(bool $condition, string $message = ''): void;
-    abstract public static function assertEquals(mixed $expected, mixed $actual, string $message = ''): void;
-    abstract protected function testFailedMessage(object $testedInstance, string $testedMethod, string $expectation): string;
 
 }
 

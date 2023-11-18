@@ -14,7 +14,7 @@ use \Stringable;
  * - Alphanumeric characters: A-Z, a-z, and 0-9
  * - Hyphens: -
  *
- * The requriment for a hypes exists so that a PositionName can
+ * The requirements for a hypen exist so that a PositionName can
  * be mapped to custom html tags.
  *
  * For example, if the PostionName is `foo-bar` then it could be
@@ -29,14 +29,26 @@ use \Stringable;
  *
  * A PositionName may not be empty.
  *
- * A PositionName must be between 3 and 30 characters in length.
+ * A PositionName must be between 3 and 70 characters in length.
  *
  */
 interface PositionName extends Stringable
 {
 
+    /**
+     * Return the PositionName's Name.
+     *
+     * @return Name
+     *
+     */
     public function name(): Name;
 
+    /**
+     * Return the PositionName's Name as a string.
+     *
+     * @return string
+     *
+     */
     public function __toString(): string;
 
 }

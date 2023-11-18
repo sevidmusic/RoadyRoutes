@@ -58,6 +58,14 @@ class PositionNameTest extends RoadyRoutesTest
              *
              */
             new Text($this->randomChars()),
+            /**
+             * Used to test that PositionName is greater than 2
+             * characters in length.
+             *
+             * @see PositionNameTestTrait->test_Name_is_greater_than_2_characters()
+             *
+             */
+            new Text(''),
         ];
         $name = new Name($testText[array_rand($testText)]);
         $this->setExpectedName($name);
