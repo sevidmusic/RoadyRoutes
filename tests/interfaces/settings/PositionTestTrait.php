@@ -137,11 +137,38 @@ trait PositionTestTrait
         );
     }
 
+    /**
+     * Test floatValue() returns value most recently set via the set
+     * method.
+     *
+     * @return void
+     *
+     * @covers Position->floatValue()
+     *
+     */
+    public function test_floatValue_returns_value_most_recently_set_via_the_set_method(): void
+    {
+        $newFloatValue = $this->randomFloat();
+        $this->setExpectedInitialFloatValue($newFloatValue);
+        $this->positionTestInstance()->set($newFloatValue);
+        $this->assertEquals(
+            $this->expectedInitialFloatValue(),
+            $this->positionTestInstance()->floatValue(),
+            $this->testFailedMessage(
+               $this->positionTestInstance(),
+               'flaotValue',
+               'Test floatValue() returns value most recently set ' .
+               'via the set method.'
+            ),
+        );
+    }
+
     abstract protected function testFailedMessage(object $testedInstance, string $testedMethod, string $expectation): string;
     abstract public static function assertEquals(mixed $expected, mixed $actual, string $message = ''): void;
     abstract public static function assertGreaterThan(mixed $expected, mixed $actual, string $message = ''): void;
     abstract public static function assertLessThan(mixed $expected, mixed $actual, string $message = ''): void;
     abstract public static function assertTrue(bool $condition, string $message = ''): void;
+    abstract public function randomFloat(): float;
 
 }
 

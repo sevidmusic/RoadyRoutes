@@ -49,16 +49,22 @@ interface Position extends Stringable
     public function __toString(): string;
 
     /**
-     * Set the Position's value.
-     * Note: The assigined float will only contain up to three
-     * decimal places even if the specified float is larger.
+     * Set the Position's float value.
      *
-     * @param float $position The float to assign to the Position.
+     * @param float|Position $newPosition A float or a Position to
+     *                                    set as the new Position.
      *
+     *                                    Note:
+     *
+     *                                    The assigned float will only
+     *                                    contain up to three decimal
+     *                                    places even if the specified
+     *                                    $newPosition is contains
+     *                                    more decimal places.
      * @return void
      *
      */
-    public function set(float $position): void;
+    public function set(float|Position $newPosition): void;
 
     /**
      * Increase the Position by a facotr of: 0.001

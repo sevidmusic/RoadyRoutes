@@ -24,9 +24,13 @@ class Position implements PositionInterface
         return '';
     }
 
-    public function set(float $position): void
+    public function set(float|PositionInterface $newPosition): void
     {
-
+        $this->float = (
+            is_float($newPosition)
+            ? $newPosition
+            : $newPosition->floatValue()
+        );
     }
 
     public function increasePosition(): void
