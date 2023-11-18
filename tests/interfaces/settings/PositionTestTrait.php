@@ -163,6 +163,51 @@ trait PositionTestTrait
         );
     }
 
+    /**
+     * Test intValue() returns the int value of the float returned by
+     * the floatValue() method.
+     *
+     * @return void
+     *
+     * @covers Position->intValue()
+     *
+     */
+    public function test_intValue_returns_the_int_value_of_the_float_returned_by_the_floatValue_method(): void
+    {
+        $this->assertEquals(
+            intval($this->positionTestInstance()->floatValue()),
+            $this->positionTestInstance()->intValue(),
+            $this->testFailedMessage(
+               $this->positionTestInstance(),
+               'intValue',
+               'Test intValue() returns the int value of the ' .
+               'float returned by the floatValue() method.'
+            ),
+        );
+    }
+
+    /**
+     * Test __toString() returns the string value of the float
+     * returned by the floatValue() method.
+     *
+     * @return void
+     *
+     * @covers Position->__toString()
+     *
+     */
+    public function test___toString_returns_the_string_value_of_the_float_returned_by_the_floatValue_method(): void
+    {
+        $this->assertEquals(
+            strval($this->positionTestInstance()->floatValue()),
+            $this->positionTestInstance()->__toString(),
+            $this->testFailedMessage(
+               $this->positionTestInstance(),
+               '__toString',
+               'Test __toString() returns the string value of the ' .
+               'float returned by the floatValue() method.'
+            ),
+        );
+    }
     abstract protected function testFailedMessage(object $testedInstance, string $testedMethod, string $expectation): string;
     abstract public static function assertEquals(mixed $expected, mixed $actual, string $message = ''): void;
     abstract public static function assertGreaterThan(mixed $expected, mixed $actual, string $message = ''): void;

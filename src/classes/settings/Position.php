@@ -16,12 +16,12 @@ class Position implements PositionInterface
 
     public function intValue(): int
     {
-        return rand(0, 100);
+        return intval($this->floatValue());
     }
 
     public function __toString(): string
     {
-        return '';
+        return strval($this->floatValue());
     }
 
     public function set(float|PositionInterface $newPosition): void
