@@ -301,11 +301,67 @@ trait PositionNameTestTrait
     }
 
     /**
-     * TODO
-     * test___toString_returns_the_same_string_that_returned_by_the___toString_method_of_the_Name_returned_by_the_name_method()
-     * test_Name_does_not_contain_any_periods()
-     * test_Name_does_not_contain_any_underscores()
+     * Test Name does not contain any periods.
+     *
+     * @return void
+     *
+     * @covers PositionName->name()
+     *
      */
+    public function test_Name_does_not_contain_any_periods(): void
+    {
+        $this->assertTrue(
+            !str_contains($this->positionNameTestInstance()->name()->__toString(), '.'),
+            $this->testFailedMessage(
+               $this->positionNameTestInstance(),
+               'name',
+                'Name must not contain any periods. Name is: ' . $this->positionNameTestInstance()->name()->__toString() . '`'
+            ),
+        );
+    }
+
+    /**
+     * Test Name does not contain any underscores.
+     *
+     * @return void
+     *
+     * @covers PositionName->name()
+     *
+     */
+    public function test_Name_does_not_contain_any_underscores(): void
+    {
+        $this->assertTrue(
+            !str_contains($this->positionNameTestInstance()->name()->__toString(), '_'),
+            $this->testFailedMessage(
+               $this->positionNameTestInstance(),
+               'name',
+                'Name must not contain any underscores. Name is: ' . $this->positionNameTestInstance()->name()->__toString() . '`'
+            ),
+        );
+    }
+
+    /**
+     * Test __toString() returns the same string that is returned by
+     * the __toString() method of the Name instance returned by the
+     * name() method.
+     *
+     * @return void
+     *
+     * @covers PositionName->__toString()
+     *
+     */
+    public function test___toString_returns_the_same_string_that_is_returned_by_the___toString_method_of_the_Name_returned_by_the_name_method(): void
+    {
+        $this->assertEquals(
+            $this->positionNameTestInstance()->name()->__toString(),
+            $this->positionNameTestInstance()->__toString(),
+            $this->testFailedMessage(
+               $this->positionNameTestInstance(),
+               'name',
+                'Name must be lowercase, Name is: `' . $this->positionNameTestInstance()->name()->__toString() . '`'
+            ),
+        );
+    }
 
     abstract public static function assertLessThan(mixed $expected, mixed $actual, string $message = ''): void;
     abstract public static function assertTrue(bool $condition, string $message = ''): void;

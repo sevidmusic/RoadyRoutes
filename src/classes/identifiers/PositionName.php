@@ -41,7 +41,7 @@ class PositionName implements PositionNameInterface
 
     public function __toString(): string
     {
-        return '';
+        return $this->name()->__toString();
     }
 
 }
