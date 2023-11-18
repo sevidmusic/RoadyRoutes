@@ -34,23 +34,47 @@ trait NamedPositionCollectionTestTrait
     private array $expectedCollection;
 
     /**
-     * Set up an instance of a NamedPositionCollection implementation to test.
+     * Set up an instance of a NamedPositionCollection
+     * implementation to test.
      *
-     * This method must also set the NamedPositionCollection implementation instance
-     * to be tested via the setNamedPositionCollectionTestInstance() method.
+     * This method must set the NamedPositionCollection
+     * implementation instance to be tested via the
+     * setNamedPositionCollectionTestInstance() method.
      *
-     * This method may also be used to perform any additional setup
-     * required by the implementation being tested.
+     * This method must also set the collection
+     * of NamedPositions that is expected to be
+     * returned by the NamedPositionCollection
+     * being tested's collection() method via the
+     * setNamedPositionCollectionTestInstance()
+     * method.
+     *
+     * This method may also be used to perform any
+     * additional setup required by the implementation
+     * being tested.
      *
      * @return void
      *
      * @example
      *
      * ```
-     * protected function setUp(): void
+     * public function setUp(): void
      * {
+     *     $mockNamedPosition = new MockClassInstance(
+     *         new Reflection(new ClassString(NamedPosition::class))
+     *     );
+     *     $namedPositions = [];
+     *     for($i = 0; $i < rand(0, 1000); $i++) {
+     *         if(rand(0, 1000000) <= $this->randomLimit()) {
+     *             break;
+     *         }
+     *         $mockInstance = $mockNamedPosition->mockInstance();
+     *         if($mockInstance instanceof NamedPosition) {
+     *             $namedPositions[] = $mockInstance;
+     *         }
+     *     }
+     *     $this->setExpectedCollection($namedPositions);
      *     $this->setNamedPositionCollectionTestInstance(
-     *         new \Darling\RoadyRoutes\classes\collections\NamedPositionCollection()
+     *         new NamedPositionCollection(...$namedPositions)
      *     );
      * }
      *
@@ -60,7 +84,8 @@ trait NamedPositionCollectionTestTrait
     abstract protected function setUp(): void;
 
     /**
-     * Return the NamedPositionCollection implementation instance to test.
+     * Return the NamedPositionCollection implementation instance
+     * to test.
      *
      * @return NamedPositionCollection
      *
@@ -71,7 +96,8 @@ trait NamedPositionCollectionTestTrait
     }
 
     /**
-     * Set the NamedPositionCollection implementation instance to test.
+     * Set the NamedPositionCollection implementation instance
+     * to test.
      *
      * @param NamedPositionCollection $namedPositionCollectionTestInstance
      *                              An instance of an

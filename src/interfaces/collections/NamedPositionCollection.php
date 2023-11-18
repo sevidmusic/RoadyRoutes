@@ -6,6 +6,7 @@ use \Darling\RoadyRoutes\interfaces\identifiers\NamedPosition;
 
 /**
  * A NamedPositionCollection defines a collection of NamedPositions.
+ *
  */
 interface NamedPositionCollection
 {

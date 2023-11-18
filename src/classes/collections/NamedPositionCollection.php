@@ -13,6 +13,15 @@ class NamedPositionCollection implements NamedPositionCollectionInterface
      */
     private array $collection = [];
 
+    /**
+     * Instantiate a new NamedPositionCollection using the
+     * specified NamedPositions.
+     *
+     * @param NamedPosition ...$namedPositions The NamedPositions
+     *                                         to assign to the
+     *                                         collection.
+     *
+     */
     public function __construct(NamedPosition ...$namedPositions)
     {
         foreach($namedPositions as $namedPosition) {
