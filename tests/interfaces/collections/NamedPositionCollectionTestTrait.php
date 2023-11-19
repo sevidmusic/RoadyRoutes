@@ -203,7 +203,6 @@ trait NamedPositionCollectionTestTrait
      */
     public function test_collection_returns_the_expected_array_of_NamedPosition_instances(): void
     {
-
         $this->assertEquals(
             $this->expectedCollection(),
             $this->namedPositionCollectionTestInstance()->collection(),
