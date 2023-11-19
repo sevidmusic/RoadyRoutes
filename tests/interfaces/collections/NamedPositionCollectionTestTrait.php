@@ -151,20 +151,6 @@ trait NamedPositionCollectionTestTrait
     }
 
     /**
-     * Return a random integer to use a limit.
-     *
-     * Integer will be `0`, `1`, or a integer between `0` and `50000`.
-     *
-     * @return int
-     *
-     */
-    protected function randomLimit(): int
-    {
-        $limits = [1, rand(0, 50000), 0];
-        return $limits[array_rand($limits)];
-    }
-
-    /**
      * Set the array of NamedPosition instances that is expected to be
      * returned by the NamedPositionCollection instance being tested's
      * collection() method.
