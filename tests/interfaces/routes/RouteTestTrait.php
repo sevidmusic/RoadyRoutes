@@ -61,6 +61,21 @@ trait RouteTestTrait
      * This method must set the Route implementation instance
      * to be tested via the setRouteTestInstance() method.
      *
+     * This method must also set the NameCollection that is
+     * expected to be returned by the Route instance being
+     * tested's nameCollection() method via the
+     * setExpectedNameCollection() method.
+     *
+     * This method must also set the NamedPositionCollection
+     * that is expected to be returned by the Route instance
+     * being tested's namedPositionCollection() method via
+     * the setExpectedNamedPositionCollection() method.
+     *
+     * This method must also set the RelativePath that is
+     * expected to be returned by the Route instance being
+     * tested's relativePath() method via the
+     * setExpectedRelativePath() method.
+     *
      * This method may also be used to perform any additional setup
      * required by the implementation being tested.
      *
@@ -69,11 +84,71 @@ trait RouteTestTrait
      * @example
      *
      * ```
+     * public function setUp(): void
+     * {
+     *     $mockNameCollection = new MockClassInstance(
+     *         new Reflection(
+     *             new ClassString(NameCollection::class)
+     *         )
+     *     );
+     *     $nameCollection = $mockNameCollection->mockInstance();
+     *     $mockNamedPositionCollection = new MockClassInstance(
+     *         new Reflection(
+     *             new ClassString(NamedPositionCollection::class)
+     *         )
+     *     );
+     *     $namedPositionCollection =
+     *         $mockNamedPositionCollection->mockInstance();
+     *     $mockRelativePath = new MockClassInstance(
+     *         new Reflection(
+     *             new ClassString(RelativePath::class)
+     *         )
+     *     );
+     *     $relativePath = $mockRelativePath->mockInstance();
+     *     if(
+     *         $nameCollection instanceof NameCollection
+     *         &&
+     *         $namedPositionCollection instanceof NamedPositionCollection
+     *         &&
+     *         $relativePath instanceof RelativePath
+     *     ) {
+     *         $this->setExpectedNameCollection($nameCollection);
+     *         $this->setExpectedNamedPositionCollection(
+     *             $namedPositionCollection
+     *         );
+     *         $this->setExpectedRelativePath($relativePath);
+     *         $this->setRouteTestInstance(
+     *             new Route(
+     *                 $nameCollection,
+     *                 $namedPositionCollection,
+     *                 $relativePath
+     *             )
+     *         );
+     *     }
+     * }
      *
      * ```
      *
      */
     abstract protected function setUp(): void;
+
+    /**
+     * Set the Route implementation instance to test.
+     *
+     * @param Route $routeTestInstance An instance of an
+     *                                 implementation of
+     *                                 the Route interface
+     *                                 to test.
+     *
+     * @return void
+     *
+     */
+    protected function setRouteTestInstance(
+        Route $routeTestInstance
+    ): void
+    {
+        $this->route = $routeTestInstance;
+    }
 
     /**
      * Return the Route implementation instance to test.
@@ -84,25 +159,6 @@ trait RouteTestTrait
     protected function routeTestInstance(): Route
     {
         return $this->route;
-    }
-
-    /**
-     * Set the Route implementation instance to test.
-     *
-     * @param Route $routeTestInstance
-     *                              An instance of an
-     *                              implementation of
-     *                              the Route
-     *                              interface to test.
-     *
-     * @return void
-     *
-     */
-    protected function setRouteTestInstance(
-        Route $routeTestInstance
-    ): void
-    {
-        $this->route = $routeTestInstance;
     }
 
     /**
@@ -139,14 +195,17 @@ trait RouteTestTrait
     }
 
     /**
-     * Set the NamedPositionCollection that is expected to be returned by the
-     * Route instance being tested's namedPositionCollection() method.
+     * Set the NamedPositionCollection that is expected
+     * to be returned by the Route instance being tested's
+     * namedPositionCollection() method.
      *
-     * @param NamedPositionCollection $namedPositionCollection The NamedPositionCollection that
-     *                                       is expected to be
-     *                                       returned by the Route
-     *                                       instance being tested's
-     *                                       namedPositionCollection() method.
+     * @param NamedPositionCollection $namedPositionCollection
+     *                                    The NamedPositionCollection
+     *                                    that is expected to be
+     *                                    returned by the Route
+     *                                    instance being tested's
+     *                                    namedPositionCollection()
+     *                                    method.
      *
      * @return void
      *
@@ -155,12 +214,14 @@ trait RouteTestTrait
         NamedPositionCollection $namedPositionCollection
     ): void
     {
-        $this->expectedNamedPositionCollection = $namedPositionCollection;
+        $this->expectedNamedPositionCollection =
+            $namedPositionCollection;
     }
 
     /**
-     * Return the NamedPositionCollection that is expected to be returned by
-     * the Route instance being tested's namedPositionCollection() method.
+     * Return the NamedPositionCollection that is expected to be returned
+     * by the Route instance being tested's namedPositionCollection()
+     * method.
      *
      * @return NamedPositionCollection
      *
@@ -219,7 +280,7 @@ trait RouteTestTrait
             $this->testFailedMessage(
                 $this->routeTestInstance(),
                 'nameCollection',
-                'return the NameCollection instances'
+                'return the expected NameCollection'
             ),
         );
     }
@@ -240,7 +301,7 @@ trait RouteTestTrait
             $this->testFailedMessage(
                 $this->routeTestInstance(),
                 'namedPositionCollection',
-                'return the NamedPositionCollection instances'
+                'return the expected NamedPositionCollection'
             ),
         );
     }
@@ -261,7 +322,7 @@ trait RouteTestTrait
             $this->testFailedMessage(
                 $this->routeTestInstance(),
                 'relativePath',
-                'return the RelativePath instances'
+                'return the expected RelativePath'
             ),
         );
     }

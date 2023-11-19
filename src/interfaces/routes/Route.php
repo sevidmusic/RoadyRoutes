@@ -14,11 +14,28 @@ use \Darling\RoadyRoutes\interfaces\paths\RelativePath;
 interface Route
 {
 
+    /**
+     * Return the assigned NameCollection.
+     *
+     * @return NameCollection
+     *
+     */
     public function nameCollection(): NameCollection;
 
-
+    /**
+     * Return the assigned NamedPositionCollection.
+     *
+     * @return NamedPositionCollection
+     *
+     */
     public function namedPositionCollection(): NamedPositionCollection;
 
+    /**
+     * Return the assigned RelativePath.
+     *
+     * @return RelativePath
+     *
+     */
     public function relativePath(): RelativePath;
 
 }

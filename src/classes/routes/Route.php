@@ -2,10 +2,10 @@
 
 namespace Darling\RoadyRoutes\classes\routes;
 
-use \Darling\RoadyRoutes\interfaces\paths\RelativePath;
-use \Darling\RoadyRoutes\interfaces\collections\NamedPositionCollection;
-use \Darling\RoadyRoutes\interfaces\routes\Route as RouteInterface;
 use \Darling\PHPTextTypes\interfaces\collections\NameCollection;
+use \Darling\RoadyRoutes\interfaces\collections\NamedPositionCollection;
+use \Darling\RoadyRoutes\interfaces\paths\RelativePath;
+use \Darling\RoadyRoutes\interfaces\routes\Route as RouteInterface;
 
 class Route implements RouteInterface
 {

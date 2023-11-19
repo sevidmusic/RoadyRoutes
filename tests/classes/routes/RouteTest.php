@@ -37,7 +37,8 @@ class RouteTest extends RoadyRoutesTest
                 new ClassString(NamedPositionCollection::class)
             )
         );
-        $namedPositionCollection = $mockNamedPositionCollection->mockInstance();
+        $namedPositionCollection =
+            $mockNamedPositionCollection->mockInstance();
         $mockRelativePath = new MockClassInstance(
             new Reflection(
                 new ClassString(RelativePath::class)
@@ -52,9 +53,17 @@ class RouteTest extends RoadyRoutesTest
             $relativePath instanceof RelativePath
         ) {
             $this->setExpectedNameCollection($nameCollection);
-            $this->setExpectedNamedPositionCollection($namedPositionCollection);
+            $this->setExpectedNamedPositionCollection(
+                $namedPositionCollection
+            );
             $this->setExpectedRelativePath($relativePath);
-            $this->setRouteTestInstance(new Route($nameCollection, $namedPositionCollection, $relativePath));
+            $this->setRouteTestInstance(
+                new Route(
+                    $nameCollection,
+                    $namedPositionCollection,
+                    $relativePath
+                )
+            );
         }
     }
 }
