@@ -10,7 +10,17 @@ class RouteCollectionSorter implements RouteCollectionSorterInterface
 
     public function sortByNamedPosition(RouteCollection $routeCollection): array
     {
-        return [];
+        $sortedRoutes = [];
+        foreach($routeCollection->collection() as $route) {
+            foreach($route->namedPositionCollection()->collection() as $namedPosition) {
+                while(isset($sortedRoutes[$namedPosition->name()->__toString()][$namedPosition->position()->__toString()])) {
+                    $namedPosition->position()->increasePosition();
+                }
+                $sortedRoutes[$namedPosition->name()->__toString()][$namedPosition->position()->__toString()] = $route;
+            }
+        }
+        return $sortedRoutes;
     }
+
 }
 

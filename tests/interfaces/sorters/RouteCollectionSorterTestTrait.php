@@ -15,7 +15,8 @@ use \Darling\PHPTextTypes\classes\strings\Text;
 use \Darling\RoadyRoutes\classes\collections\NamedPositionCollection;
 use \Darling\RoadyRoutes\classes\collections\RouteCollection as RouteCollectionInstance;
 use \Darling\RoadyRoutes\classes\paths\RelativePath;
-use \Darling\RoadyRoutes\classes\routes\Route;
+use \Darling\RoadyRoutes\interfaces\routes\Route;
+use \Darling\RoadyRoutes\classes\routes\Route as RouteInstance;
 use \Darling\RoadyRoutes\interfaces\collections\RouteCollection;
 use \Darling\RoadyRoutes\interfaces\sorters\RouteCollectionSorter;
 
@@ -97,6 +98,33 @@ trait RouteCollectionSorterTestTrait
 
 
     /**
+     * Use the specified RouteCollection to determine the array
+     * that should be returned by the RouteCollectionSorter
+     * instance being tested's sortByNamedPosition() method
+     * if it was passed the same RouteCollection.
+     *
+     * @return array<string, array<string, Route>>
+     *
+     */
+    private function expectedArrayOfRoutesSortedByNamedPosition(
+        RouteCollection $routeCollection
+    ): array
+    {
+        $sortedRoutes = [];
+        foreach($routeCollection->collection() as $route) {
+            foreach($route->namedPositionCollection()->collection() as $namedPosition) {
+                while(isset($sortedRoutes[$namedPosition->name()->__toString()][$namedPosition->position()->__toString()])) {
+                    $namedPosition->position()->increasePosition();
+                }
+                $sortedRoutes[$namedPosition->name()->__toString()][$namedPosition->position()->__toString()] = $route;
+                ksort($sortedRoutes[$namedPosition->name()->__toString()], SORT_NATURAL);
+            }
+        }
+        ksort($sortedRoutes);
+        return $sortedRoutes;
+    }
+
+    /**
      * Test sortByNamedPosition() returns an associatively index
      * array of associatively indexed arrays of Routes indexed first
      * by Name and then by Position.
@@ -112,11 +140,116 @@ trait RouteCollectionSorterTestTrait
             new Reflection(new ClassString(RouteCollection::class))
         );
         $testRouteCollection = new RouteCollectionInstance(
-            new Route(
+            new RouteInstance(
                 new NameCollection(new Name(new Text('name'))),
                 new NamedPositionCollection(
                     new NamedPosition(
-                        new Name(new Text('named-position')),
+                        new Name(new Text('named-position-2')),
+                        new Position(3.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-1')),
+                        new Position(3.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-1')),
+                        new Position(1.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-1')),
+                        new Position(1.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-1')),
+                        new Position(1.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-1')),
+                        new Position(1.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-1')),
+                        new Position(1.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-2')),
                         new Position(0),
                     ),
                 ),
@@ -127,18 +260,69 @@ trait RouteCollectionSorterTestTrait
                     )
                 ),
             ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-2')),
+                        new Position(0),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-2')),
+                        new Position(0),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-2')),
+                        new Position(3.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-2')),
+                        new Position(7.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
         );
-        /**
-         * Attempt to mock a RouteCollection so values are random.
-         * If mock is successful, set it as the $testRouteCollection.
-         */
-        $mockRouteCollection = $mockClassInstance->mockInstance();
-        if($mockRouteCollection instanceof RouteCollection) {
-            $testRouteCollection = $mockRouteCollection;
-        }
-        var_dump($testRouteCollection);
         $this->assertEquals(
-            [],
+            $this->expectedArrayOfRoutesSortedByNamedPosition($testRouteCollection),
             $this->routeCollectionSorterTestInstance()->sortByNamedPosition($testRouteCollection),
             $this->testFailedMessage(
                 $this->routeCollectionSorterTestInstance(),
