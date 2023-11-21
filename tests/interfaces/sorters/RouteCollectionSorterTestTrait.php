@@ -137,21 +137,46 @@ trait RouteCollectionSorterTestTrait
     private function testRouteCollection(): RouteCollection
     {
         $routes = [];
-        while(rand(0, 100)) {
-            $randomPositionValue = (rand(0, 1) ? $this->randomFloat() : rand(PHP_INT_MIN, PHP_INT_MAX));
+        while(rand(0, 420)) {
+            $randomFloatPositionValue = $this->randomFloat();
+            $randomIntPosition = rand(PHP_INT_MIN, PHP_INT_MAX);
+            $randomPosition = (
+                rand(0, 1)
+                ? $randomFloatPositionValue
+                : $randomIntPosition
+            );
+            $negativeOneZeroOrOne = rand(-1, 1);
             $routes[] =
             new RouteInstance(
                 new NameCollection(
                     new Name(
                         new Text(
-                            'name' . strval($randomPositionValue)
+                            'name-' . strval($randomPosition)
                         )
-                    )
+                    ),
+                    new Name(
+                        new Text(
+                            'name-' . strval($negativeOneZeroOrOne)
+                        )
+                    ),
                 ),
                 new NamedPositionCollection(
                     new NamedPosition(
-                        new Name(new Text('named-position-2')),
-                        new Position($randomPositionValue),
+                        new Name(
+                            new Text(
+                                'named-position-' . strval(rand(0, 3))
+                            )
+                        ),
+                        new Position($randomPosition),
+                    ),
+                    new NamedPosition(
+                        new Name(
+                            new Text(
+                                'named-position-' . strval(rand(0, 3))
+                            )
+                        ),
+                        /** Also test with position -1, 0, or 1 */
+                        new Position($negativeOneZeroOrOne),
                     ),
                 ),
                 new RelativePath(
@@ -164,6 +189,7 @@ trait RouteCollectionSorterTestTrait
         }
         return new RouteCollectionInstance(...$routes);
     }
+
     /**
      * Test sortByNamedPosition() returns an associatively index
      * array of associatively indexed arrays of Routes indexed first
