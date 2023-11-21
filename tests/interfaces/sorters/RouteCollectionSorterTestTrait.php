@@ -121,7 +121,7 @@ trait RouteCollectionSorterTestTrait
                 ksort($sortedRoutes[$namedPosition->name()->__toString()], SORT_NATURAL);
             }
         }
-        ksort($sortedRoutes);
+        ksort($sortedRoutes, SORT_NATURAL);
         return $sortedRoutes;
     }
 
@@ -192,7 +192,7 @@ trait RouteCollectionSorterTestTrait
                 new NameCollection(new Name(new Text('name1.1'))),
                 new NamedPositionCollection(
                     new NamedPosition(
-                        new Name(new Text('named-position-1')),
+                        new Name(new Text('named-position-5')),
                         new Position(1.1),
                     ),
                 ),
@@ -327,6 +327,21 @@ trait RouteCollectionSorterTestTrait
                 new NameCollection(new Name(new Text('name7.1'))),
                 new NamedPositionCollection(
                     new NamedPosition(
+                        new Name(new Text('named-position-5')),
+                        new Position(23.27683),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name7.1'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
                         new Name(new Text('named-position-2')),
                         new Position(7.1),
                     ),
@@ -368,7 +383,7 @@ trait RouteCollectionSorterTestTrait
     }
 
     /**
-     * Test positions are sorted in ascending order.
+     * Test Routes are sorted by Position in ascending order.
      *
      * @return void
      *
@@ -398,13 +413,35 @@ trait RouteCollectionSorterTestTrait
         }
     }
 
+    /**
+     * Test positionNames are sorted in alphabetical order.
+     *
+     * @return void
+     *
+     * @covers RouteCollectionSorter->sortByNamedPosition()
+     *
+     */
+    public function test_positionNames_are_sorted_in_alphabetical_order(): void
+    {
+        $testRouteCollection = $this->testRouteCollection();
+        $sortedRoutes = $this->routeCollectionSorterTestInstance()->sortByNamedPosition($testRouteCollection);
+        $positionNames = array_keys($sortedRoutes);
+        $unsortedPositionNames = $positionNames;
+        asort($positionNames, SORT_NATURAL);
+        $this->assertSame(
+            $positionNames,
+            $unsortedPositionNames,
+            $this->testFailedMessage(
+                $this->routeCollectionSorterTestInstance(),
+                'sortByNamedPosition',
+                'positionNames must be sorted in alphabetical order'
+            ),
+        );
+    }
+
+    abstract public static function assertSame(mixed $expected, mixed $actual, string $message = ''): void;
     abstract protected static function assertEquals(mixed $expected, mixed $actual, string $message = ''): void;
     abstract protected function testFailedMessage(object $object, string $method, string $message): string;
-
-    /**
-     * test_positions_are_sorted_in_ascending_order()
-     * test_positionNames_are_sorted_in_alphabetical_order()
-     */
     abstract public static function assertGreaterThan(mixed $expected, mixed $actual, string $message = ''): void;
 
 }

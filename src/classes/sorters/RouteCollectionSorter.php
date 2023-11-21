@@ -21,7 +21,7 @@ class RouteCollectionSorter implements RouteCollectionSorterInterface
                 ksort($sortedRoutes[$namedPosition->name()->__toString()], SORT_NATURAL);
             }
         }
-        ksort($sortedRoutes);
+        ksort($sortedRoutes, SORT_NATURAL);
         return $sortedRoutes;
     }
 
