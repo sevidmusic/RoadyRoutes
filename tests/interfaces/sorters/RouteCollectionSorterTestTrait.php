@@ -116,7 +116,8 @@ trait RouteCollectionSorterTestTrait
                 while(isset($sortedRoutes[$namedPosition->name()->__toString()][$namedPosition->position()->__toString()])) {
                     $namedPosition->position()->increasePosition();
                 }
-                $sortedRoutes[$namedPosition->name()->__toString()][$namedPosition->position()->__toString()] = $route;
+                $positionIndex = ($namedPosition->position()->__toString() === '0' ? '0.000' : $namedPosition->position()->__toString());
+                $sortedRoutes[$namedPosition->name()->__toString()][$positionIndex] = $route;
                 ksort($sortedRoutes[$namedPosition->name()->__toString()], SORT_NATURAL);
             }
         }
@@ -124,6 +125,221 @@ trait RouteCollectionSorterTestTrait
         return $sortedRoutes;
     }
 
+    private function testRouteCollection(): RouteCollection
+    {
+        return new RouteCollectionInstance(
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name3.1'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-2')),
+                        new Position(3.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name3.1'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-1')),
+                        new Position(3.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name1.1'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-1')),
+                        new Position(1.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name1.1'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-1')),
+                        new Position(1.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name1.1'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-1')),
+                        new Position(1.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name1.1'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-1')),
+                        new Position(1.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name1.1'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-1')),
+                        new Position(1.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name0.02'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-2')),
+                        new Position(0.02),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name0.02'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-2')),
+                        new Position(0.02),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name0'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-2')),
+                        new Position(0),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name0'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-2')),
+                        new Position(0),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name0.02'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-2')),
+                        new Position(0.02),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name3.1'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-2')),
+                        new Position(3.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+            new RouteInstance(
+                new NameCollection(new Name(new Text('name7.1'))),
+                new NamedPositionCollection(
+                    new NamedPosition(
+                        new Name(new Text('named-position-2')),
+                        new Position(7.1),
+                    ),
+                ),
+                new RelativePath(
+                    new SafeTextCollection(
+                        new SafeText(new Text('relative')),
+                        new SafeText(new Text('path')),
+                    )
+                ),
+            ),
+        );
+    }
     /**
      * Test sortByNamedPosition() returns an associatively index
      * array of associatively indexed arrays of Routes indexed first
@@ -139,188 +355,7 @@ trait RouteCollectionSorterTestTrait
         $mockClassInstance = new MockClassInstance(
             new Reflection(new ClassString(RouteCollection::class))
         );
-        $testRouteCollection = new RouteCollectionInstance(
-            new RouteInstance(
-                new NameCollection(new Name(new Text('name'))),
-                new NamedPositionCollection(
-                    new NamedPosition(
-                        new Name(new Text('named-position-2')),
-                        new Position(3.1),
-                    ),
-                ),
-                new RelativePath(
-                    new SafeTextCollection(
-                        new SafeText(new Text('relative')),
-                        new SafeText(new Text('path')),
-                    )
-                ),
-            ),
-            new RouteInstance(
-                new NameCollection(new Name(new Text('name'))),
-                new NamedPositionCollection(
-                    new NamedPosition(
-                        new Name(new Text('named-position-1')),
-                        new Position(3.1),
-                    ),
-                ),
-                new RelativePath(
-                    new SafeTextCollection(
-                        new SafeText(new Text('relative')),
-                        new SafeText(new Text('path')),
-                    )
-                ),
-            ),
-            new RouteInstance(
-                new NameCollection(new Name(new Text('name'))),
-                new NamedPositionCollection(
-                    new NamedPosition(
-                        new Name(new Text('named-position-1')),
-                        new Position(1.1),
-                    ),
-                ),
-                new RelativePath(
-                    new SafeTextCollection(
-                        new SafeText(new Text('relative')),
-                        new SafeText(new Text('path')),
-                    )
-                ),
-            ),
-            new RouteInstance(
-                new NameCollection(new Name(new Text('name'))),
-                new NamedPositionCollection(
-                    new NamedPosition(
-                        new Name(new Text('named-position-1')),
-                        new Position(1.1),
-                    ),
-                ),
-                new RelativePath(
-                    new SafeTextCollection(
-                        new SafeText(new Text('relative')),
-                        new SafeText(new Text('path')),
-                    )
-                ),
-            ),
-            new RouteInstance(
-                new NameCollection(new Name(new Text('name'))),
-                new NamedPositionCollection(
-                    new NamedPosition(
-                        new Name(new Text('named-position-1')),
-                        new Position(1.1),
-                    ),
-                ),
-                new RelativePath(
-                    new SafeTextCollection(
-                        new SafeText(new Text('relative')),
-                        new SafeText(new Text('path')),
-                    )
-                ),
-            ),
-            new RouteInstance(
-                new NameCollection(new Name(new Text('name'))),
-                new NamedPositionCollection(
-                    new NamedPosition(
-                        new Name(new Text('named-position-1')),
-                        new Position(1.1),
-                    ),
-                ),
-                new RelativePath(
-                    new SafeTextCollection(
-                        new SafeText(new Text('relative')),
-                        new SafeText(new Text('path')),
-                    )
-                ),
-            ),
-            new RouteInstance(
-                new NameCollection(new Name(new Text('name'))),
-                new NamedPositionCollection(
-                    new NamedPosition(
-                        new Name(new Text('named-position-1')),
-                        new Position(1.1),
-                    ),
-                ),
-                new RelativePath(
-                    new SafeTextCollection(
-                        new SafeText(new Text('relative')),
-                        new SafeText(new Text('path')),
-                    )
-                ),
-            ),
-            new RouteInstance(
-                new NameCollection(new Name(new Text('name'))),
-                new NamedPositionCollection(
-                    new NamedPosition(
-                        new Name(new Text('named-position-2')),
-                        new Position(0),
-                    ),
-                ),
-                new RelativePath(
-                    new SafeTextCollection(
-                        new SafeText(new Text('relative')),
-                        new SafeText(new Text('path')),
-                    )
-                ),
-            ),
-            new RouteInstance(
-                new NameCollection(new Name(new Text('name'))),
-                new NamedPositionCollection(
-                    new NamedPosition(
-                        new Name(new Text('named-position-2')),
-                        new Position(0),
-                    ),
-                ),
-                new RelativePath(
-                    new SafeTextCollection(
-                        new SafeText(new Text('relative')),
-                        new SafeText(new Text('path')),
-                    )
-                ),
-            ),
-            new RouteInstance(
-                new NameCollection(new Name(new Text('name'))),
-                new NamedPositionCollection(
-                    new NamedPosition(
-                        new Name(new Text('named-position-2')),
-                        new Position(0),
-                    ),
-                ),
-                new RelativePath(
-                    new SafeTextCollection(
-                        new SafeText(new Text('relative')),
-                        new SafeText(new Text('path')),
-                    )
-                ),
-            ),
-            new RouteInstance(
-                new NameCollection(new Name(new Text('name'))),
-                new NamedPositionCollection(
-                    new NamedPosition(
-                        new Name(new Text('named-position-2')),
-                        new Position(3.1),
-                    ),
-                ),
-                new RelativePath(
-                    new SafeTextCollection(
-                        new SafeText(new Text('relative')),
-                        new SafeText(new Text('path')),
-                    )
-                ),
-            ),
-            new RouteInstance(
-                new NameCollection(new Name(new Text('name'))),
-                new NamedPositionCollection(
-                    new NamedPosition(
-                        new Name(new Text('named-position-2')),
-                        new Position(7.1),
-                    ),
-                ),
-                new RelativePath(
-                    new SafeTextCollection(
-                        new SafeText(new Text('relative')),
-                        new SafeText(new Text('path')),
-                    )
-                ),
-            ),
-        );
+        $testRouteCollection =  $this->testRouteCollection();
         $this->assertEquals(
             $this->expectedArrayOfRoutesSortedByNamedPosition($testRouteCollection),
             $this->routeCollectionSorterTestInstance()->sortByNamedPosition($testRouteCollection),
@@ -332,8 +367,45 @@ trait RouteCollectionSorterTestTrait
         );
     }
 
+    /**
+     * Test positions are sorted in ascending order.
+     *
+     * @return void
+     *
+     * @covers RouteCollectionSorter->sortByNamedPosition()
+     *
+     */
+    public function test_positions_are_sorted_in_ascending_order(): void
+    {
+        $testRouteCollection = $this->testRouteCollection();
+        $sortedRoutes = $this->routeCollectionSorterTestInstance()->sortByNamedPosition($testRouteCollection);
+        foreach($sortedRoutes as $positionName => $routes) {
+            foreach($routes as $positionIndex => $route) {
+                if(isset($lastPositionIndex)) {
+                    $this->assertGreaterThan(
+                        strval($lastPositionIndex),
+                        strval($positionIndex),
+                        $this->testFailedMessage(
+                            $this->routeCollectionSorterTestInstance(),
+                            'sortByNamedPosition',
+                            'Routes must be sorted by position in ascending order',
+                        ),
+                    );
+                }
+                $lastPositionIndex = $positionIndex;
+            }
+            unset($lastPositionIndex);
+        }
+    }
+
     abstract protected static function assertEquals(mixed $expected, mixed $actual, string $message = ''): void;
     abstract protected function testFailedMessage(object $object, string $method, string $message): string;
+
+    /**
+     * test_positions_are_sorted_in_ascending_order()
+     * test_positionNames_are_sorted_in_alphabetical_order()
+     */
+    abstract public static function assertGreaterThan(mixed $expected, mixed $actual, string $message = ''): void;
 
 }
 

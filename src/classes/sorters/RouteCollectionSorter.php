@@ -16,9 +16,12 @@ class RouteCollectionSorter implements RouteCollectionSorterInterface
                 while(isset($sortedRoutes[$namedPosition->name()->__toString()][$namedPosition->position()->__toString()])) {
                     $namedPosition->position()->increasePosition();
                 }
-                $sortedRoutes[$namedPosition->name()->__toString()][$namedPosition->position()->__toString()] = $route;
+                $positionIndex = ($namedPosition->position()->__toString() === '0' ? '0.000' : $namedPosition->position()->__toString());
+                $sortedRoutes[$namedPosition->name()->__toString()][$positionIndex] = $route;
+                ksort($sortedRoutes[$namedPosition->name()->__toString()], SORT_NATURAL);
             }
         }
+        ksort($sortedRoutes);
         return $sortedRoutes;
     }
 
