@@ -114,16 +114,23 @@ trait RouteCollectionSorterTestTrait
     {
         $sortedRoutes = [];
         foreach($routeCollection->collection() as $route) {
-            foreach($route->namedPositionCollection()->collection() as $namedPosition) {
+            foreach(
+                $route->namedPositionCollection()->collection()
+                as
+                $namedPosition
+            ) {
                 $positionName = $namedPosition->name()->__toString();
                 $positionIndex = (
                     $namedPosition->position()->__toString() === '0'
                     ? '0.000'
                     : $namedPosition->position()->__toString()
                 );
-                while(isset($sortedRoutes[$positionName][$positionIndex])) {
+                while(
+                    isset($sortedRoutes[$positionName][$positionIndex])
+                ) {
                     $namedPosition->position()->increasePosition();
-                    $positionIndex = $namedPosition->position()->__toString();
+                    $positionIndex = $namedPosition->position()
+                                                   ->__toString();
                 }
                 $sortedRoutes[$positionName][$positionIndex] = $route;
                 ksort($sortedRoutes[$positionName], SORT_NUMERIC);
@@ -213,12 +220,18 @@ trait RouteCollectionSorterTestTrait
         );
         $testRouteCollection =  $this->testRouteCollection();
         $this->assertEquals(
-            $this->expectedArrayOfRoutesSortedByNamedPosition($testRouteCollection),
-            $this->routeCollectionSorterTestInstance()->sortByNamedPosition($testRouteCollection),
+            $this->expectedArrayOfRoutesSortedByNamedPosition(
+                $testRouteCollection
+            ),
+            $this->routeCollectionSorterTestInstance()
+                 ->sortByNamedPosition($testRouteCollection),
             $this->testFailedMessage(
                 $this->routeCollectionSorterTestInstance(),
                 'sortByNamedPosition',
-                'Test sortByNamedPosition() returns an associatively index array of associatively indexed arrays of Routes indexed first by Name and then by Position'
+                'Test sortByNamedPosition() returns an ' .
+                'associatively index array of associatively ' .
+                'indexed arrays of Routes indexed first by Name ' .
+                'and then by Position'
             ),
         );
     }
@@ -234,7 +247,10 @@ trait RouteCollectionSorterTestTrait
     public function test_positions_are_sorted_in_ascending_order(): void
     {
         $testRouteCollection = $this->testRouteCollection();
-        $sortedRoutes = $this->routeCollectionSorterTestInstance()->sortByNamedPosition($testRouteCollection);
+        $sortedRoutes = $this->routeCollectionSorterTestInstance()
+                             ->sortByNamedPosition(
+                                $testRouteCollection
+                            );
         foreach($sortedRoutes as $positionName => $routes) {
             foreach($routes as $positionIndex => $route) {
                 if(isset($lastPositionIndex)) {
@@ -244,7 +260,8 @@ trait RouteCollectionSorterTestTrait
                         $this->testFailedMessage(
                             $this->routeCollectionSorterTestInstance(),
                             'sortByNamedPosition',
-                            'Routes must be sorted by position in ascending order',
+                            'Routes must be sorted by position ' .
+                            'in ascending order',
                         ),
                     );
                 }
@@ -265,7 +282,8 @@ trait RouteCollectionSorterTestTrait
     public function test_positionNames_are_sorted_in_alphabetical_order(): void
     {
         $testRouteCollection = $this->testRouteCollection();
-        $sortedRoutes = $this->routeCollectionSorterTestInstance()->sortByNamedPosition($testRouteCollection);
+        $sortedRoutes = $this->routeCollectionSorterTestInstance()
+                             ->sortByNamedPosition($testRouteCollection);
         $positionNames = array_keys($sortedRoutes);
         $unsortedPositionNames = $positionNames;
         asort($positionNames, SORT_NATURAL);
@@ -280,11 +298,11 @@ trait RouteCollectionSorterTestTrait
         );
     }
 
-    abstract public static function assertSame(mixed $expected, mixed $actual, string $message = ''): void;
-    abstract protected static function assertEquals(mixed $expected, mixed $actual, string $message = ''): void;
     abstract protected function testFailedMessage(object $object, string $method, string $message): string;
-    abstract public static function assertGreaterThan(mixed $expected, mixed $actual, string $message = ''): void;
+    abstract protected static function assertEquals(mixed $expected, mixed $actual, string $message = ''): void;
     abstract public function randomFloat(): float;
+    abstract public static function assertGreaterThan(mixed $expected, mixed $actual, string $message = ''): void;
+    abstract public static function assertSame(mixed $expected, mixed $actual, string $message = ''): void;
 
 }
 
