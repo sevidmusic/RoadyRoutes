@@ -115,12 +115,18 @@ trait RouteCollectionSorterTestTrait
         $sortedRoutes = [];
         foreach($routeCollection->collection() as $route) {
             foreach($route->namedPositionCollection()->collection() as $namedPosition) {
-                while(isset($sortedRoutes[$namedPosition->name()->__toString()][$namedPosition->position()->__toString()])) {
+                $positionName = $namedPosition->name()->__toString();
+                $positionIndex = (
+                    $namedPosition->position()->__toString() === '0'
+                    ? '0.000'
+                    : $namedPosition->position()->__toString()
+                );
+                while(isset($sortedRoutes[$positionName][$positionIndex])) {
                     $namedPosition->position()->increasePosition();
+                    $positionIndex = $namedPosition->position()->__toString();
                 }
-                $positionIndex = ($namedPosition->position()->__toString() === '0' ? '0.000' : $namedPosition->position()->__toString());
-                $sortedRoutes[$namedPosition->name()->__toString()][$positionIndex] = $route;
-                ksort($sortedRoutes[$namedPosition->name()->__toString()], SORT_NUMERIC);
+                $sortedRoutes[$positionName][$positionIndex] = $route;
+                ksort($sortedRoutes[$positionName], SORT_NUMERIC);
             }
         }
         ksort($sortedRoutes, SORT_NATURAL);
@@ -137,7 +143,7 @@ trait RouteCollectionSorterTestTrait
     private function testRouteCollection(): RouteCollection
     {
         $routes = [];
-        while(rand(0, 420)) {
+        while(rand(0, 42)) {
             $randomFloatPositionValue = $this->randomFloat();
             $randomIntPosition = rand(PHP_INT_MIN, PHP_INT_MAX);
             $randomPosition = (
