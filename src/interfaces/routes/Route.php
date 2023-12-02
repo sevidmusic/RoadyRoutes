@@ -5,6 +5,7 @@ namespace Darling\RoadyRoutes\interfaces\routes;
 use \Darling\PHPTextTypes\interfaces\collections\NameCollection;
 use \Darling\RoadyRoutes\interfaces\collections\NamedPositionCollection;
 use \Darling\RoadyRoutes\interfaces\paths\RelativePath;
+use \Darling\PHPTextTypes\interfaces\strings\Name;
 
 /**
  * A Route defines the relationship between a NameCollection,
@@ -13,6 +14,14 @@ use \Darling\RoadyRoutes\interfaces\paths\RelativePath;
  */
 interface Route
 {
+
+    /**
+     * Return the Name of the module this Route is defined by.
+     *
+     * @return Name
+     *
+     */
+    public function moduleName(): Name;
 
     /**
      * Return the assigned NameCollection.
