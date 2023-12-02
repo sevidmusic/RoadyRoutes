@@ -5,6 +5,8 @@ namespace Darling\RoadyRoutes\tests\classes\routes;
 use \Darling\PHPMockingUtilities\classes\mock\values\MockClassInstance;
 use \Darling\PHPReflectionUtilities\classes\utilities\Reflection;
 use \Darling\PHPTextTypes\classes\strings\ClassString;
+use \Darling\PHPTextTypes\classes\strings\Name;
+use \Darling\PHPTextTypes\classes\strings\Text;
 use \Darling\PHPTextTypes\interfaces\collections\NameCollection;
 use \Darling\RoadyRoutes\classes\routes\Route;
 use \Darling\RoadyRoutes\interfaces\collections\NamedPositionCollection;
@@ -26,6 +28,8 @@ class RouteTest extends RoadyRoutesTest
 
     public function setUp(): void
     {
+        $moduleName = new Name(new Text($this->randomChars()));
+        $this->setExpectedModuleName($moduleName);
         $mockNameCollection = new MockClassInstance(
             new Reflection(
                 new ClassString(NameCollection::class)
@@ -59,6 +63,7 @@ class RouteTest extends RoadyRoutesTest
             $this->setExpectedRelativePath($relativePath);
             $this->setRouteTestInstance(
                 new Route(
+                    $moduleName,
                     $nameCollection,
                     $namedPositionCollection,
                     $relativePath

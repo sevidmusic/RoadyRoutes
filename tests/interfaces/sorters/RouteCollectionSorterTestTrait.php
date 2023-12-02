@@ -161,6 +161,7 @@ trait RouteCollectionSorterTestTrait
             $negativeOneZeroOrOne = rand(-1, 1);
             $routes[] =
             new RouteInstance(
+                new Name(new Text('name-of-module-route-was-defined-by')),
                 new NameCollection(
                     new Name(
                         new Text(

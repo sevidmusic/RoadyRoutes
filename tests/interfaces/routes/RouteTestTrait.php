@@ -3,6 +3,7 @@
 namespace Darling\RoadyRoutes\tests\interfaces\routes;
 
 use \Darling\PHPTextTypes\interfaces\collections\NameCollection;
+use \Darling\PHPTextTypes\interfaces\strings\Name;
 use \Darling\RoadyRoutes\interfaces\collections\NamedPositionCollection;
 use \Darling\RoadyRoutes\interfaces\paths\RelativePath;
 use \Darling\RoadyRoutes\interfaces\routes\Route;
@@ -21,8 +22,15 @@ trait RouteTestTrait
      * @var Route $route An instance of a Route implementation
      *                   to test.
      */
-    protected Route $route;
+    private Route $route;
 
+    /**
+     * @var Name $expectedModuleName The Name that is expected
+     *                               to be returned by the Route
+     *                               implementation being tested's
+     *                               moduleName() method.
+     */
+    private Name $expectedModuleName;
 
     /**
      * @var NameCollection $expectedNameCollection The NameCollection
@@ -161,6 +169,38 @@ trait RouteTestTrait
         return $this->route;
     }
 
+
+    ###
+
+    /**
+     * Set the Name that is expected to be returned by the
+     * Route instance being tested's moduleName() method.
+     *
+     * @param Name $name The Name that is expected to be returned by
+     *                   the Route instance being tested's moduleName()
+     *                   method.
+     *
+     * @return void
+     *
+     */
+    protected function setExpectedModuleName(Name $name): void
+    {
+        $this->expectedModuleName = $name;
+    }
+
+    /**
+     * Return the ModuleName that is expected to be returned by
+     * the Route instance being tested's moduleName() method.
+     *
+     * @return Name
+     *
+     */
+    protected function expectedModuleName(): Name
+    {
+        return $this->expectedModuleName;
+    }
+
+    ###
     /**
      * Set the NameCollection that is expected to be returned by the
      * Route instance being tested's nameCollection() method.
@@ -323,6 +363,27 @@ trait RouteTestTrait
                 $this->routeTestInstance(),
                 'relativePath',
                 'return the expected RelativePath'
+            ),
+        );
+    }
+
+    /**
+     * Test moduleName returns expected module Name.
+     *
+     * @return void
+     *
+     * @covers Route->moduleName()
+     *
+     */
+    public function test_moduleName_returns_expected_module_Name(): void
+    {
+        $this->assertEquals(
+            $this->expectedModuleName(),
+            $this->routeTestInstance()->moduleName(),
+            $this->testFailedMessage(
+                $this->routeTestInstance(),
+                'moduleName',
+                'return the expected module Name'
             ),
         );
     }
