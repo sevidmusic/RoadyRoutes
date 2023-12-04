@@ -3,12 +3,10 @@
 namespace Darling\RoadyRoutes\tests\interfaces\sorters;
 
 use Darling\RoadyRoutes\classes\identifiers\NamedPosition;
+use Darling\RoadyRoutes\classes\identifiers\PositionName;
 use Darling\RoadyRoutes\classes\settings\Position;
-use \Darling\PHPMockingUtilities\classes\mock\values\MockClassInstance;
-use \Darling\PHPReflectionUtilities\classes\utilities\Reflection;
 use \Darling\PHPTextTypes\classes\collections\NameCollection;
 use \Darling\PHPTextTypes\classes\collections\SafeTextCollection;
-use \Darling\PHPTextTypes\classes\strings\ClassString;
 use \Darling\PHPTextTypes\classes\strings\Name;
 use \Darling\PHPTextTypes\classes\strings\SafeText;
 use \Darling\PHPTextTypes\classes\strings\Text;
@@ -119,7 +117,7 @@ trait RouteCollectionSorterTestTrait
                 as
                 $namedPosition
             ) {
-                $positionName = $namedPosition->name()->__toString();
+                $positionName = $namedPosition->positionName()->__toString();
                 $positionIndex = (
                     $namedPosition->position()->__toString() === '0'
                     ? '0.000'
@@ -176,18 +174,22 @@ trait RouteCollectionSorterTestTrait
                 ),
                 new NamedPositionCollection(
                     new NamedPosition(
-                        new Name(
-                            new Text(
-                                'named-position-' . strval(rand(0, 3))
-                            )
+                        new PositionName(
+                            new Name(
+                                new Text(
+                                    'named-position-' . strval(rand(0, 3))
+                                )
+                            ),
                         ),
                         new Position($randomPosition),
                     ),
                     new NamedPosition(
-                        new Name(
-                            new Text(
-                                'named-position-' . strval(rand(0, 3))
-                            )
+                        new PositionName(
+                            new Name(
+                                new Text(
+                                    'named-position-' . strval(rand(0, 3))
+                                )
+                            ),
                         ),
                         /** Also test with position -1, 0, or 1 */
                         new Position($negativeOneZeroOrOne),
@@ -216,9 +218,6 @@ trait RouteCollectionSorterTestTrait
      */
     public function test_sortByNamedPosition_returns_an_associatively_index_array_of_associatively_indexed_arrays_of_Routes_indexed_first_by_Name_and_then_by_Position(): void
     {
-        $mockClassInstance = new MockClassInstance(
-            new Reflection(new ClassString(RouteCollection::class))
-        );
         $testRouteCollection =  $this->testRouteCollection();
         $this->assertEquals(
             $this->expectedArrayOfRoutesSortedByNamedPosition(
@@ -253,22 +252,18 @@ trait RouteCollectionSorterTestTrait
                                 $testRouteCollection
                             );
         foreach($sortedRoutes as $positionName => $routes) {
-            foreach($routes as $positionIndex => $route) {
-                if(isset($lastPositionIndex)) {
-                    $this->assertGreaterThan(
-                        strval($lastPositionIndex),
-                        strval($positionIndex),
-                        $this->testFailedMessage(
-                            $this->routeCollectionSorterTestInstance(),
-                            'sortByNamedPosition',
-                            'Routes must be sorted by position ' .
-                            'in ascending order',
-                        ),
-                    );
-                }
-                $lastPositionIndex = $positionIndex;
-            }
-            unset($lastPositionIndex);
+            $routePositons = array_keys($routes);
+            $unsortedRoutePositions = $routePositons;
+            asort($routePositons, SORT_NUMERIC);
+            $this->assertSame(
+                $routePositons,
+                $unsortedRoutePositions,
+                $this->testFailedMessage(
+                    $this->routeCollectionSorterTestInstance(),
+                    'sortByNamedPosition',
+                    'positions must be sorted in ascending order'
+                ),
+            );
         }
     }
 
@@ -299,11 +294,36 @@ trait RouteCollectionSorterTestTrait
         );
     }
 
+    /**
+     * Test sortByNamedPosition() returns an empty array if the
+     * RouteCollection is empty.
+     *
+     * @return void
+     *
+     * @covers RouteCollectionSorter->sortByNamedPosition()
+     *
+     */
+    public function test_sortByNamedPosition_returns_an_empty_array_if_the_RouteCollection_is_empty(): void
+    {
+        $testRouteCollection = new RouteCollectionInstance();
+        $sortedRoutes = $this->routeCollectionSorterTestInstance()
+                             ->sortByNamedPosition($testRouteCollection);
+        $this->assertEmpty(
+            $sortedRoutes,
+            $this->testFailedMessage(
+                $this->routeCollectionSorterTestInstance(),
+                'sortByNamedPosition',
+                'return an empty array if the RouteCollection ' .
+                'is empty'
+            ),
+        );
+    }
+
     abstract protected function testFailedMessage(object $object, string $method, string $message): string;
     abstract protected static function assertEquals(mixed $expected, mixed $actual, string $message = ''): void;
     abstract public function randomFloat(): float;
-    abstract public static function assertGreaterThan(mixed $expected, mixed $actual, string $message = ''): void;
     abstract public static function assertSame(mixed $expected, mixed $actual, string $message = ''): void;
+    abstract public static function assertEmpty(mixed $dataHolder, string $message = ''): void;
 
 }
 

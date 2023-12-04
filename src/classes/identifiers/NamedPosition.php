@@ -2,8 +2,8 @@
 
 namespace Darling\RoadyRoutes\classes\identifiers;
 
-use \Darling\PHPTextTypes\interfaces\strings\Name;
 use \Darling\RoadyRoutes\interfaces\identifiers\NamedPosition as NamedPositionInterface;
+use \Darling\RoadyRoutes\interfaces\identifiers\PositionName;
 use \Darling\RoadyRoutes\interfaces\settings\Position;
 
 class NamedPosition implements NamedPositionInterface
@@ -12,25 +12,26 @@ class NamedPosition implements NamedPositionInterface
     /**
      * Instantiate a new NamedPosition.
      *
-     * @param Name $name The name to assign to the NamedPosition.
+     * @param PositionName $positionName The PositionName to assign to
+     *                                   the NamedPosition.
      *
      * @param Position $position The Position to assign to the
      *                           NamedPosition.
      *
      */
     public function __construct(
-        private Name $name, private Position $position
+        private PositionName $positionName, private Position $position
     ) {}
 
     /**
-     * Return the Name of the Position.
+     * Return the PositionName of the Position.
      *
-     * @return Name
+     * @return PositionName
      *
      */
-    public function name(): Name
+    public function positionName(): PositionName
     {
-        return $this->name;
+        return $this->positionName;
     }
 
 

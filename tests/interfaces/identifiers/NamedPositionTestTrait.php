@@ -2,8 +2,8 @@
 
 namespace Darling\RoadyRoutes\tests\interfaces\identifiers;
 
-use \Darling\PHPTextTypes\interfaces\strings\Name;
 use \Darling\RoadyRoutes\interfaces\identifiers\NamedPosition;
+use \Darling\RoadyRoutes\interfaces\identifiers\PositionName;
 use \Darling\RoadyRoutes\interfaces\settings\Position;
 
 /**
@@ -25,11 +25,13 @@ trait NamedPositionTestTrait
 
 
     /**
-     * @var Name $expectedName The Name that is expected to be
-     *                         returned by the NamedPosition being
-     *                         tested's name() method.
+     * @var PositionName $expectedPositonName The PositionName that is
+     *                                        expected to be returned
+     *                                        by the NamedPosition
+     *                                        being tested's
+     *                                        positionName() method.
      */
-    private Name $expectedName;
+    private PositionName $expectedPositonName;
 
     /**
      * @var Position $expectedPosition The Position that is expected
@@ -46,8 +48,8 @@ trait NamedPositionTestTrait
      * to be tested via the setNamedPositionTestInstance() method.
      *
      * This method must also set the Name that is expected to be
-     * returned by the NamedPosition being tested's name() method
-     * via the setExpectedName() method.
+     * returned by the NamedPosition being tested's positionName()
+     * method via the setExpectedPositionName() method.
      *
      * This method must also set the Position that is expected to be
      * returned by the NamedPosition being tested's position() method.
@@ -63,12 +65,12 @@ trait NamedPositionTestTrait
      * ```
      * public function setUp(): void
      * {
-     *     $name = new Name(new Text($this->randomChars()));
+     *     $positionName = new PositionName(new Name(new Text($this->randomChars())));
      *     $position = new Position($this->randomFloat());
-     *     $this->setExpectedName($name);
+     *     $this->setExpectedPositionName($positionName);
      *     $this->setExpectedPosition($position);
      *     $this->setNamedPositionTestInstance(
-     *         new NamedPosition($name, $position)
+     *         new NamedPosition($positionName, $position)
      *     );
      * }
      *
@@ -109,30 +111,31 @@ trait NamedPositionTestTrait
 
     /**
      * Set the Name that is expected to be returned by the
-     * NamedPosition being tested's name() method.
+     * NamedPosition being tested's positionName() method.
      *
-     * @param Name $name The Name that is expected to be returned by
-     *                   the NamedPosition being tested's name()
-     *                   method.
+     * @param PositionName $positionName The Name that is expected to
+     *                                   be returned by the
+     *                                   NamedPosition being tested's
+     *                                   positionName() method.
      *
      * @return void
      *
      */
-    protected function setExpectedName(Name $name): void
+    protected function setExpectedPositionName(PositionName $positionName): void
     {
-        $this->expectedName = $name;
+        $this->expectedPositonName = $positionName;
     }
 
     /**
      * Return the Name that is expected to be returned by the
-     * NamedPosition being tested's name() method.
+     * NamedPosition being tested's positionName() method.
      *
-     * @return Name
+     * @return PositionName
      *
      */
-    protected function expectedName(): Name
+    protected function expectedPositionName(): PositionName
     {
-        return $this->expectedName;
+        return $this->expectedPositonName;
     }
 
     /**
@@ -164,20 +167,20 @@ trait NamedPositionTestTrait
     }
 
     /**
-     * Test name() returns the expected Name.
+     * Test positionName() returns the expected PositionName.
      *
-     * @covers NamedPosition->name()
+     * @covers NamedPosition->positionName()
      *
      */
-    public function test_name_returns_expected_name(): void
+    public function test_name_returns_expected_positionName(): void
     {
         $this->assertEquals(
-            $this->expectedName(),
-            $this->namedPositionTestInstance()->name(),
+            $this->expectedPositionName(),
+            $this->namedPositionTestInstance()->positionName(),
             $this->testFailedMessage(
                 $this->namedPositionTestInstance(),
-                'name',
-                'return the expected name'
+                'positionName',
+                'return the expected PositionName'
             ),
         );
     }
