@@ -19,7 +19,7 @@ class RouteCollectionSorter implements RouteCollectionSorterInterface
                 as
                 $namedPosition
             ) {
-                $positionName = $namedPosition->name()->__toString();
+                $positionName = $namedPosition->positionName()->__toString();
                 $positionIndex = (
                     $namedPosition->position()->__toString() === '0'
                     ? '0.000'

@@ -2,23 +2,23 @@
 
 namespace Darling\RoadyRoutes\interfaces\identifiers;
 
-use \Darling\PHPTextTypes\interfaces\strings\Name;
+use \Darling\RoadyRoutes\interfaces\identifiers\PositionName;
 use \Darling\RoadyRoutes\interfaces\settings\Position;
 
 /**
- * A NamedPosition assoiciates a Name with a Position.
+ * A NamedPosition assoiciates a PositionName with a Position.
  */
 interface NamedPosition
 {
 
 
     /**
-     * Return the Name of the Position.
+     * Return the PositionName.
      *
-     * @return Name
+     * @return PositionName
      *
      */
-    public function name(): Name;
+    public function positionName(): PositionName;
 
 
     /**
