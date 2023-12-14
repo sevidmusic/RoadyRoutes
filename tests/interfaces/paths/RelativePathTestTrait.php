@@ -143,8 +143,14 @@ trait RelativePathTestTrait
     private function expectedString(): string
     {
         $string = '';
-        foreach ($this->expectedSafeTextCollection()->collection() as $safeText) {
-            $string .= $safeText->__toString() . DIRECTORY_SEPARATOR;
+        $safeTextCollection = $this->expectedSafeTextCollection();
+        foreach ($safeTextCollection->collection() as $key => $safeText) {
+            $string .= match(
+                $key === array_key_last($safeTextCollection->collection())
+            ) {
+                 true => $safeText->__toString(),
+                 default => $safeText->__toString() . DIRECTORY_SEPARATOR,
+            };
         }
         return $string;
     }
