@@ -21,8 +21,14 @@ final class RelativePath implements RelativePathInterface
     public function __toString(): string
     {
         $string = '';
-        foreach ($this->safeTextCollection()->collection() as $safeText) {
-            $string .= $safeText->__toString() . DIRECTORY_SEPARATOR;
+        $safeTextCollection = $this->safeTextCollection();
+        foreach ($safeTextCollection->collection() as $key => $safeText) {
+            $string .= match(
+                $key === array_key_last($safeTextCollection->collection())
+            ) {
+                 true => $safeText->__toString(),
+                 default => $safeText->__toString() . DIRECTORY_SEPARATOR,
+            };
         }
         return $string;
     }
